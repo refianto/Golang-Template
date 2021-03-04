@@ -4,9 +4,11 @@
 - go gin
 - mgo v2
 
-## v1.0.0 | 2021-03-04
+## v1.0.1 | 2021-03-04
 #### Model
     - ErrorHandle
+
+## v1.0.0 | 2021-03-04
 #### Contrloller
     - get_data
     - add_data
