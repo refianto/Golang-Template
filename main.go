@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/bisaai/digileaps/contrloller/kategori"
+	"github.com/refianto/goTemplate/contrloller/kategori"
 
 	"github.com/gin-gonic/gin"
 )

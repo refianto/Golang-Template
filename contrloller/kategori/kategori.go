@@ -3,9 +3,9 @@ package kategori
 import (
 	"log"
 
-	"github.com/bisaai/digileaps/conn"
-	model "github.com/bisaai/digileaps/model"
-	dbstruct "github.com/bisaai/digileaps/struct/kategori"
+	"github.com/refianto/goTemplate/conn"
+	model "github.com/refianto/goTemplate/model"
+	dbstruct "github.com/refianto/goTemplate/struct/kategori"
 
 	"errors"
 	"net/http"

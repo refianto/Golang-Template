@@ -3,7 +3,7 @@ package model
 import (
 	"strconv"
 
-	"github.com/bisaai/digileaps/conn"
+	"github.com/refianto/goTemplate/conn"
 
 	"gopkg.in/mgo.v2/bson"
 )
