@@ -1,4 +1,4 @@
-module github.com/refianto/goTemplate
+module github.com/revianto/goTemplate
 
 go 1.16
 

@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/refianto/goTemplate/contrloller/kategori"
+	"github.com/revianto/goTemplate/contrloller/kategori"
 
 	"github.com/gin-gonic/gin"
 )
