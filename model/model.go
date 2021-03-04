@@ -1,9 +1,10 @@
 package model
 
 import (
+	"log"
 	"strconv"
 
-	"github.com/refianto/goTemplate/conn"
+	"github.com/revianto/goTemplate/conn"
 
 	"gopkg.in/mgo.v2/bson"
 )
@@ -26,6 +27,7 @@ func GetData(SortBy, Page string, SelectField, param bson.M, Data interface{}, d
 	return countData, &data, err
 }
 
+// GetDataLimit for get dynamc limit data
 func GetDataLimit(Lim int, Page string, param bson.M, Data interface{}, dataColllection string) (int, interface{}, error) {
 	db := conn.GetDB()
 	var data []interface{}
@@ -63,6 +65,12 @@ func UpdateData(SelectData, Data interface{}, dataCollection string) (interface{
 	data := Data
 	err := db.C(dataCollection).Update(&SelectData, bson.M{"$set": &data})
 	return data, err
+}
+
+// ErrorHandle for save error to logs
+func ErrorHandle(message, err interface{}) interface{} {
+	log.Println(err)
+	return message
 }
 
 // // SaveFile is general save file

@@ -1,11 +1,9 @@
 package kategori
 
 import (
-	"log"
-
-	"github.com/refianto/goTemplate/conn"
-	model "github.com/refianto/goTemplate/model"
-	dbstruct "github.com/refianto/goTemplate/struct/kategori"
+	"github.com/revianto/goTemplate/conn"
+	model "github.com/revianto/goTemplate/model"
+	dbstruct "github.com/revianto/goTemplate/struct/kategori"
 
 	"errors"
 	"net/http"
@@ -20,6 +18,7 @@ var (
 	errInvalidParam    = errors.New("Invalid parameter")
 	errInvalidInt      = errors.New("Invalid integer")
 	errInvalidBody     = errors.New("Invalid request body")
+	errGetFailed       = errors.New("Error at getting data")
 	errInsertionFailed = errors.New("Error in the data insertion")
 	errUpdationFailed  = errors.New("Error in the data updation")
 )
@@ -44,7 +43,8 @@ func GetKategori(c *gin.Context) {
 
 	err := c.ShouldBind(&ft)
 	if err != nil {
-		log.Println(errInvalidParam.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"status": "failed", "message": model.ErrorHandle(errInvalidParam.Error(), err.Error())})
+		return
 	}
 
 	/*
@@ -58,7 +58,7 @@ func GetKategori(c *gin.Context) {
 
 	rowCount, data, err := model.GetData(sortBy, page, selectField, quary, structData, dataCollection)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"status": "failed", "message": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"status": "failed", "message": model.ErrorHandle(errGetFailed.Error(), err.Error())})
 		return
 	}
 
@@ -70,7 +70,7 @@ func AddKategori(c *gin.Context) {
 	structData := dbstruct.PostKategori{}
 	err := c.BindJSON(&structData)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"status": "failed", "message": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"status": "failed", "message": model.ErrorHandle(errInvalidBody.Error(), err.Error())})
 		return
 	}
 	if structData.IsAktif == 0 {
@@ -78,7 +78,7 @@ func AddKategori(c *gin.Context) {
 	}
 	data, err := model.InsertData(structData, dataCollection)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"status": "failed", "message": errInvalidBody.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"status": "failed", "message": model.ErrorHandle(errInsertionFailed.Error(), err.Error())})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"status": "success", "data": &data})
@@ -90,7 +90,7 @@ func UpdateKategori(c *gin.Context) {
 	structData := dbstruct.PutKategori{}
 	err := c.BindJSON(&structData)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"status": "failed", "message": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"status": "failed", "message": model.ErrorHandle(errInvalidBody.Error(), err.Error())})
 		return
 	}
 
@@ -99,7 +99,7 @@ func UpdateKategori(c *gin.Context) {
 
 	data, err := model.UpdateData(selectData, structData, dataCollection)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"status": "failed", "message": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"status": "failed", "message": model.ErrorHandle(errUpdationFailed.Error(), err.Error())})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"status": "success", "data": &data})
