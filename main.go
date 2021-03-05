@@ -4,20 +4,20 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/revianto/goTemplate/contrloller/kategori"
+	"github.com/revianto/goTemplate/contrloller/user"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	router := gin.Default()
-
-	gKategori := router.Group("/digileaps/v1/kategori")
+	// gUser is group user
+	gUser := router.Group("/digileaps/v1/user")
 	{
-		gKategori.Static("/media", "/upload/kategori")
-		gKategori.GET("/get", kategori.GetKategori)
-		gKategori.POST("/insert", kategori.AddKategori)
-		gKategori.PUT("/update", kategori.UpdateKategori)
+		gUser.Static("/media", "/upload/user")
+		gUser.GET("/get", user.GetData)
+		gUser.POST("/insert", user.AddData)
+		gUser.PUT("/update", user.UpdateData)
 	}
 
 	router.NoRoute(func(c *gin.Context) {

@@ -1,9 +1,9 @@
-package kategori
+package user
 
 import (
 	"github.com/revianto/goTemplate/conn"
 	model "github.com/revianto/goTemplate/model"
-	dbstruct "github.com/revianto/goTemplate/struct/kategori"
+	mystruct "github.com/revianto/goTemplate/struct/user"
 
 	"errors"
 	"net/http"
@@ -23,7 +23,7 @@ var (
 	errUpdationFailed  = errors.New("Error in the data updation")
 )
 
-const dataCollection = "kategori"
+const dataCollection = "user"
 
 var db = conn.GetDB()
 
@@ -34,10 +34,10 @@ type FilterParamenter struct {
 	SortBy string        `form:"sortBy"`
 }
 
-// GetKategori to get data
-func GetKategori(c *gin.Context) {
+// GetData to get data
+func GetData(c *gin.Context) {
 
-	structData := make([]dbstruct.GetKategori, 0)
+	structData := make([]mystruct.GetStruct, 0)
 	quary := bson.M{}
 	var ft FilterParamenter
 
@@ -54,7 +54,8 @@ func GetKategori(c *gin.Context) {
 	*/
 	page := ft.Page
 	sortBy := ft.SortBy
-	selectField := bson.M{"nama": 1}
+	selectField := bson.M{}
+	// selectField1 := bson.M{"nama": 1}
 
 	rowCount, data, err := model.GetData(sortBy, page, selectField, quary, structData, dataCollection)
 	if err != nil {
@@ -65,9 +66,9 @@ func GetKategori(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"offset": 10, "page": 1, "row_count": rowCount, "data": &data})
 }
 
-// AddKategori to add data
-func AddKategori(c *gin.Context) {
-	structData := dbstruct.PostKategori{}
+// AddData to add data
+func AddData(c *gin.Context) {
+	structData := mystruct.PostStruct{}
 	err := c.BindJSON(&structData)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"status": "failed", "message": model.ErrorHandle(errInvalidBody.Error(), err.Error())})
@@ -85,16 +86,16 @@ func AddKategori(c *gin.Context) {
 
 }
 
-// UpdateKategori to update data
-func UpdateKategori(c *gin.Context) {
-	structData := dbstruct.PutKategori{}
+// UpdateData to update data
+func UpdateData(c *gin.Context) {
+	structData := mystruct.PutStruct{}
 	err := c.BindJSON(&structData)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"status": "failed", "message": model.ErrorHandle(errInvalidBody.Error(), err.Error())})
 		return
 	}
 
-	selectData := dbstruct.IDKategori{}
+	selectData := mystruct.IDStruct{}
 	selectData.ID = bson.ObjectIdHex(c.Query("id"))
 
 	data, err := model.UpdateData(selectData, structData, dataCollection)
