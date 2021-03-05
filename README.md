@@ -11,6 +11,10 @@
 - go run main.go ```running with default host localhost:27017, collection example```
 - go run main.go -host:[host] -coll:[collection] ```running with custom host and collection``` 
 
+## v1.0.2 | 2021-03-05
+#### Conn
+    - Custom host and collecton using flag pacege
+
 ## v1.0.1 | 2021-03-04
 #### Model
     - ErrorHandle
